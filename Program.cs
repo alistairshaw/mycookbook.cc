@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace mycookbook.cc
+namespace mycookbook.cc.MyCookBook.cc
 {
     public class Program
     {

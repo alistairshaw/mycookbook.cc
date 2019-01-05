@@ -10,8 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using mycookbook.cc.MyCookBook.User.Repository;
 
-namespace mycookbook.cc
+namespace mycookbook.cc.MyCookBook.cc
 {
     public class Startup
     {
@@ -26,6 +27,7 @@ namespace mycookbook.cc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddTransient<IUserRepository, SqlLiteUserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
