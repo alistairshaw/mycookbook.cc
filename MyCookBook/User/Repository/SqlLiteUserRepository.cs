@@ -2,6 +2,7 @@ using System.Linq;
 using mycookbook.cc.MyCookBook.Base;
 using mycookbook.cc.MyCookBook.Base.ValueObjects;
 using mycookbook.cc.MyCookBook.User.Exceptions;
+using mycookbook.cc.MyCookBook.User.Repository.Models;
 
 namespace mycookbook.cc.MyCookBook.User.Repository {
 

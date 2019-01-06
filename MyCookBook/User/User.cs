@@ -7,6 +7,7 @@ using System.Text;
 using mycookbook.cc.MyCookBook.Base.ValueObjects;
 using mycookbook.cc.MyCookBook.User.Aggregates;
 using mycookbook.cc.MyCookBook.User.Repository;
+using mycookbook.cc.MyCookBook.User.Repository.Models;
 using mycookbook.cc.MyCookBook.User.Views;
 
 namespace mycookbook.cc.MyCookBook.User 

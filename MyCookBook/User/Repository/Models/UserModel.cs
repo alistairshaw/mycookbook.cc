@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace mycookbook.cc.MyCookBook.User.Repository
+namespace mycookbook.cc.MyCookBook.User.Repository.Models
 {
     public class UserModel
     {

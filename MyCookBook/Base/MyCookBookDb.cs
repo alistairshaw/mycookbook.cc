@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using mycookbook.cc.MyCookBook.User.Repository;
+using mycookbook.cc.MyCookBook.User.Repository.Models;
 
 namespace mycookbook.cc.MyCookBook.Base
 {
