@@ -11,7 +11,11 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Repository
     {
         public void Delete(Ingredient ingredient)
         {
-            throw new System.NotImplementedException();
+            using (MyCookBookDb db = new MyCookBookDb())
+            {
+                db.Ingredients.Remove(ingredient.DatabaseView());
+                db.SaveChanges();
+            }
         }
 
         public Ingredient Find(int loggedInUserId, int ingredientId)
