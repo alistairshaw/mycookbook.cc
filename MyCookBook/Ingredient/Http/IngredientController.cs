@@ -38,5 +38,25 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Http
                 return Json(JsonErrorResponse.FromMessage(ex.Message));
             }
         }
+
+        [Authorize]
+        [HttpGet]
+        [Route("api/ingredient")]
+        public IActionResult List()
+        {
+            try
+            {
+                string filter = "";
+
+                int userId = Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var ingredients = _ingredientRepository.Search(userId, IngredientSearchQuery.FromFilter(filter));
+                return Json(ingredients.ApiView());
+            }
+            catch (DuplicateIngredientException ex)
+            {
+                Response.StatusCode = 400;
+                return Json(JsonErrorResponse.FromMessage(ex.Message));
+            }
+        }
     }
 }

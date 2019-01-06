@@ -2,17 +2,17 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Repository
 {
     class IngredientSearchQuery
     {
-        private string filter;
-        private int offset;
-        private int limit;
+        public string Filter;
+        public int Offset;
+        public int Limit;
         private IngredientSearchQuery(string filter, int offset, int limit)
         {
-            this.filter = filter;
-            this.offset = offset;
-            this.limit = limit;
+            Filter = filter;
+            Offset = offset;
+            Limit = limit;
         }
 
-        public IngredientSearchQuery FromFilter(string filter)
+        public static IngredientSearchQuery FromFilter(string filter)
         {
             return new IngredientSearchQuery(filter, 0, 50);
         }

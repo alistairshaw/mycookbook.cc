@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using mycookbook.cc.MyCookBook.Base;
 using mycookbook.cc.MyCookBook.Base.Exceptions;
@@ -44,7 +45,22 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Repository
 
         public IngredientSearchResult Search(int loggedInUserId, IngredientSearchQuery query)
         {
-            throw new System.NotImplementedException();
+            using (MyCookBookDb db = new MyCookBookDb())
+            {
+                var dbQuery = db.Ingredients
+                .Where(i => i.UserId == loggedInUserId)
+                .Take(query.Limit)
+                .Skip(query.Offset);
+
+                IngredientModel[] results = dbQuery.ToArray();
+                var result = new IngredientSearchResult();
+                result.Ingredients = results.Select(i => IngredientFactory.FromDatabase(i)).ToArray();
+                result.Total = dbQuery.Count();
+                result.Limit = query.Limit;
+                result.Offset = query.Offset;
+
+                return result;
+            }
         }
 
         private bool IsDuplicate(int loggedInUserId, Ingredient ingredient)
