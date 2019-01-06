@@ -14,3 +14,6 @@ x64/
 
 # SQlite Database
 MyCookBook.db
+
+# IDE Stuff
+.vscode
