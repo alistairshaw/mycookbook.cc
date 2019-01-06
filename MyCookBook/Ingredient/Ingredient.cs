@@ -22,6 +22,13 @@ namespace mycookbook.cc.MyCookBook.Ingredient
             return this.title;
         }
 
+        internal Ingredient Update(string title, string blurb)
+        {
+            this.title = title;
+            this.blurb = blurb;
+            return this;
+        }
+
         public IngredientApiView ApiView()
         {
             return new IngredientApiView(this.id, this.title, this.blurb);

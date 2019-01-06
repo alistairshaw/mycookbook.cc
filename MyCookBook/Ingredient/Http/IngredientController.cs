@@ -79,5 +79,27 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Http
                 return Json(JsonErrorResponse.FromMessage("Invalid Ingredient Selected"));
             }
         }
+
+        [Authorize]
+        [HttpPatch]
+        [Route("api/ingredient/{ingredientId}")]
+        public IActionResult Update(int ingredientId)
+        {
+            try
+            {
+                int userId = Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var ingredient = _ingredientRepository.Find(userId, ingredientId);
+                ingredient = _ingredientRepository.Save(userId, ingredient.Update(
+                    Request.Form["title"], 
+                    Request.Form["blurb"]));
+
+                return Json(ingredient.ApiView());
+            }
+            catch (RecordNotFoundException)
+            {
+                Response.StatusCode = 404;
+                return Json(JsonErrorResponse.FromMessage("Invalid Ingredient Selected"));
+            }
+        }
     }
 }

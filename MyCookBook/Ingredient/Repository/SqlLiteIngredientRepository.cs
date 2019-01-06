@@ -38,7 +38,15 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Repository
                 IngredientModel ingredientModel = ingredient.DatabaseView();
                 ingredientModel.UserId = loggedInUserId;
 
-                db.Ingredients.Add(ingredientModel);
+                if (ingredientModel.Id == null)
+                {
+                    db.Ingredients.Add(ingredientModel);
+                }
+                else
+                {
+                    db.Ingredients.Update(ingredientModel);
+                }
+            
                 db.SaveChanges();
 
                 var id = ingredientModel.Id.GetValueOrDefault();
