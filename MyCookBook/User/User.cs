@@ -3,7 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authentication;
 using mycookbook.cc.MyCookBook.Base.ValueObjects;
 using mycookbook.cc.MyCookBook.User.Aggregates;
 using mycookbook.cc.MyCookBook.User.Repository;
@@ -40,6 +42,17 @@ namespace mycookbook.cc.MyCookBook.User
             string profilePictureUrl = null;
             if (this.profilePicture != null) profilePictureUrl = this.profilePicture.GetUrl().ToString();
             return new UserApiView(this.id, this.emailAddress.ToString(), this.name, profilePictureUrl, "");
+        }
+
+        internal AuthenticationTicket AuthTicket()
+        {
+            var claims = new[] {
+                new Claim(ClaimTypes.NameIdentifier, this.id.ToString()),
+                new Claim(ClaimTypes.Name, this.name),
+            };
+            var identity = new ClaimsIdentity(claims, "BasicAuthentication");
+            var principal = new ClaimsPrincipal(identity);
+            return new AuthenticationTicket(principal, "BasicAuthentication");
         }
 
         internal UserModel DatabaseView()

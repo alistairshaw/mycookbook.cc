@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using mycookbook.cc.MyCookBook.Base.Exceptions;
@@ -12,11 +15,11 @@ namespace mycookbook.cc.MyCookBook.User.Http
     [ApiController]
     public class UserController : Controller
     {
-        private IUserRepository UserRepository;
+        private IUserRepository _userRepository;
 
         public UserController(IServiceProvider serviceProvider)
         {
-            this.UserRepository = serviceProvider.GetService<IUserRepository>();
+            _userRepository = serviceProvider.GetService<IUserRepository>();
         }
 
         [HttpPost]
@@ -25,7 +28,7 @@ namespace mycookbook.cc.MyCookBook.User.Http
         {
             try
             {
-                var token = this.UserRepository.Register(
+                var token = _userRepository.Register(
                     UserFactory.FromRegistrationForm(
                         Request.Form["email"],
                         Request.Form["name"]
@@ -53,7 +56,7 @@ namespace mycookbook.cc.MyCookBook.User.Http
             try
             {
                 var emailAddress = EmailAddress.FromString(Request.Form["email"]);
-                var token = this.UserRepository.SignIn(emailAddress, Request.Form["password"]);
+                var token = _userRepository.SignIn(emailAddress, Request.Form["password"]);
 
                 return Json(token);
             }
@@ -68,12 +71,24 @@ namespace mycookbook.cc.MyCookBook.User.Http
                 return Json(JsonErrorResponse.FromMessage("Incorrect Email or Password"));
             }
         }
-        
+
+        [Authorize]
         [HttpGet]
         [Route("api/auth/sign-out")]
         public IActionResult SignOut()
         {
-            return Json(true);
+            try
+            {
+                int userId = Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                _userRepository.SignOut(userId);
+
+                return Json(true);
+            }
+            catch (FormatException)
+            {
+                Response.StatusCode = 401;
+                return Json(JsonErrorResponse.FromMessage("Permission Denied"));
+            }
         }
     }
 }

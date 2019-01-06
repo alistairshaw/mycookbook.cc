@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using mycookbook.cc.MyCookBook.Base;
 using mycookbook.cc.MyCookBook.Base.Exceptions;
 using mycookbook.cc.MyCookBook.Base.ValueObjects;
@@ -26,7 +27,7 @@ namespace mycookbook.cc.MyCookBook.User.Repository
 
                 var id = userModel.Id.GetValueOrDefault();
 
-                return this.GenerateAuthToken(id);
+                return this.GenerateAuthToken(id, userModel.Email);
             }
         }
 
@@ -41,11 +42,30 @@ namespace mycookbook.cc.MyCookBook.User.Repository
                 int id = existingUser.Id.GetValueOrDefault();
                 if (id == default(int)) throw new RecordNotFoundException();
 
-                return this.GenerateAuthToken(id);
+                return this.GenerateAuthToken(id, existingUser.Email);
             }
         }
 
-        private AuthToken GenerateAuthToken(int userId)
+        public async Task<User> Authenticate(string user, string password)
+        {
+            return await Task.Run(() =>
+            {
+                using (MyCookBookDb db = new MyCookBookDb())
+                {
+                    UserTokenModel userToken = db.UserTokens.FirstOrDefault(t => t.Token == password);
+                    if (userToken == null) return null;
+
+                    return this.Find(userToken.UserId);
+                }
+            });
+        }
+
+        public void SignOut(int userId)
+        {
+            this.DeleteAllTokensForUser(userId);
+        }
+
+        private AuthToken GenerateAuthToken(int userId, string email)
         {
             using (MyCookBookDb db = new MyCookBookDb())
             {
@@ -55,14 +75,21 @@ namespace mycookbook.cc.MyCookBook.User.Repository
                 userTokenModel.Created = MyDateTime.Now().ForDatabase();
                 userTokenModel.Expires = MyDateTime.Now().AddHours(2).ForDatabase();
 
-                // delete all previous tokens
-                db.UserTokens.RemoveRange(db.UserTokens.Where(t => t.UserId == userId));
-                db.SaveChanges();
+                this.DeleteAllTokensForUser(userId);
 
                 db.UserTokens.Add(userTokenModel);
                 db.SaveChanges();
 
                 return AuthToken.FromToken(userTokenModel.Token, userId);
+            }
+        }
+
+        private void DeleteAllTokensForUser(int userId)
+        {
+            using (MyCookBookDb db = new MyCookBookDb())
+            {
+                db.UserTokens.RemoveRange(db.UserTokens.Where(t => t.UserId == userId));
+                db.SaveChanges();
             }
         }
 
