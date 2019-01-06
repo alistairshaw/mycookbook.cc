@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using mycookbook.cc.MyCookBook.Base.Exceptions;
 using mycookbook.cc.MyCookBook.Base.ValueObjects;
+using mycookbook.cc.MyCookBook.User.Aggregates;
 using mycookbook.cc.MyCookBook.User.Exceptions;
 using mycookbook.cc.MyCookBook.User.Repository;
 
@@ -28,14 +29,14 @@ namespace mycookbook.cc.MyCookBook.User.Http
         {
             try
             {
-                var token = _userRepository.Register(
+                var authResult = _userRepository.Register(
                     UserFactory.FromRegistrationForm(
                         Request.Form["email"],
                         Request.Form["name"]
                     ),
                     UserPassword.FromPlainText(Request.Form["password"])
                     );
-                return Json(token);
+                return Json(authResult);
             }
             catch (System.ArgumentException ex)
             {
@@ -56,9 +57,9 @@ namespace mycookbook.cc.MyCookBook.User.Http
             try
             {
                 var emailAddress = EmailAddress.FromString(Request.Form["email"]);
-                var token = _userRepository.SignIn(emailAddress, Request.Form["password"]);
+                var authResult = _userRepository.SignIn(emailAddress, Request.Form["password"]);
 
-                return Json(token);
+                return Json(authResult);
             }
             catch (System.ArgumentException ex)
             {

@@ -13,7 +13,7 @@ namespace mycookbook.cc.MyCookBook.User.Repository
 
     class SqlLiteUserRepository : IUserRepository
     {
-        public AuthToken Register(User user, UserPassword password)
+        public AuthResult Register(User user, UserPassword password)
         {
             if (this.CheckForDuplicate(user)) throw new DuplicateUserException("User already exists");
 
@@ -27,11 +27,11 @@ namespace mycookbook.cc.MyCookBook.User.Repository
 
                 var id = userModel.Id.GetValueOrDefault();
 
-                return this.GenerateAuthToken(id, userModel.Email);
+                return this.GenerateAuthToken(id, this.Find(id));
             }
         }
 
-        public AuthToken SignIn(EmailAddress email, string plainTextPassword)
+        public AuthResult SignIn(EmailAddress email, string plainTextPassword)
         {
             using (MyCookBookDb db = new MyCookBookDb())
             {
@@ -42,7 +42,7 @@ namespace mycookbook.cc.MyCookBook.User.Repository
                 int id = existingUser.Id.GetValueOrDefault();
                 if (id == default(int)) throw new RecordNotFoundException();
 
-                return this.GenerateAuthToken(id, existingUser.Email);
+                return this.GenerateAuthToken(id, this.Find(id));
             }
         }
 
@@ -65,7 +65,7 @@ namespace mycookbook.cc.MyCookBook.User.Repository
             this.DeleteAllTokensForUser(userId);
         }
 
-        private AuthToken GenerateAuthToken(int userId, string email)
+        private AuthResult GenerateAuthToken(int userId, User user)
         {
             using (MyCookBookDb db = new MyCookBookDb())
             {
@@ -80,7 +80,7 @@ namespace mycookbook.cc.MyCookBook.User.Repository
                 db.UserTokens.Add(userTokenModel);
                 db.SaveChanges();
 
-                return AuthToken.FromToken(userTokenModel.Token, userId);
+                return new AuthResult(user, AuthToken.FromToken(userTokenModel.Token, userId));
             }
         }
 
