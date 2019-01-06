@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using mycookbook.cc.MyCookBook.Base.Middleware;
+using mycookbook.cc.MyCookBook.Ingredient.Repository;
 using mycookbook.cc.MyCookBook.User.Repository;
 
 namespace mycookbook.cc.MyCookBook.cc
@@ -33,6 +34,7 @@ namespace mycookbook.cc.MyCookBook.cc
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
             services.AddTransient<IUserRepository, SqlLiteUserRepository>();
+            services.AddTransient<IIngredientRepository, SqlLiteIngredientRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

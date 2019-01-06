@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using mycookbook.cc.MyCookBook.Base;
 using mycookbook.cc.MyCookBook.Base.Exceptions;
 using mycookbook.cc.MyCookBook.Base.ValueObjects;
 using mycookbook.cc.MyCookBook.User.Aggregates;
@@ -14,7 +15,7 @@ using mycookbook.cc.MyCookBook.User.Repository;
 namespace mycookbook.cc.MyCookBook.User.Http
 {
     [ApiController]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private IUserRepository _userRepository;
 
@@ -80,9 +81,7 @@ namespace mycookbook.cc.MyCookBook.User.Http
         {
             try
             {
-                int userId = Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
-                _userRepository.SignOut(userId);
-
+                _userRepository.SignOut(Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 return Json(true);
             }
             catch (FormatException)
