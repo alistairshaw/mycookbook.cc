@@ -1,5 +1,7 @@
+using System;
 using System.Linq;
 using mycookbook.cc.MyCookBook.Base;
+using mycookbook.cc.MyCookBook.Base.Exceptions;
 using mycookbook.cc.MyCookBook.Base.ValueObjects;
 using mycookbook.cc.MyCookBook.User.Exceptions;
 using mycookbook.cc.MyCookBook.User.Repository.Models;
@@ -14,14 +16,29 @@ namespace mycookbook.cc.MyCookBook.User.Repository {
 
             using (MyCookBookDb db = new MyCookBookDb())
             {
-                UserModel userView = user.DatabaseView();
-                userView.Password = password.ForDatabase();
+                UserModel userModel = user.DatabaseView();
+                userModel.Password = password.ForDatabase();
 
-                db.Users.Add(userView);
+                db.Users.Add(userModel);
                 db.SaveChanges();
-            }
 
-            return user;
+                var id = userModel.Id;
+
+                return this.Find(id);
+            }
+        }
+
+        private User Find(int? id)
+        {
+            if (id == null) throw new ArgumentNullException();
+
+            using (MyCookBookDb db = new MyCookBookDb())
+            {
+                UserModel existingUser = db.Users.FirstOrDefault(u => u.Id == id);
+                if (existingUser == null) throw new RecordNotFoundException();
+
+                return UserFactory.FromDatabase(existingUser);
+            }
         }
 
         private bool CheckForDuplicate(User user)

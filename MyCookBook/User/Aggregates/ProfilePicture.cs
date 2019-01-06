@@ -18,7 +18,7 @@ namespace mycookbook.cc.MyCookBook.User.Aggregates
 
         public Url GetUrl()
         {
-            return Url.ForProfilePicture(filename);
+            return Url.ForProfilePicture(this.filename);
         }
     }
 }
