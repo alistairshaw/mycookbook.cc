@@ -33,8 +33,8 @@ namespace mycookbook.cc.MyCookBook.cc
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-            services.AddTransient<IUserRepository, SqlLiteUserRepository>();
-            services.AddTransient<IIngredientRepository, SqlLiteIngredientRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IIngredientRepository, IngredientRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

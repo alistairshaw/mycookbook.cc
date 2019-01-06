@@ -11,7 +11,7 @@ using mycookbook.cc.MyCookBook.User.Repository.Models;
 namespace mycookbook.cc.MyCookBook.User.Repository
 {
 
-    class SqlLiteUserRepository : IUserRepository
+    class UserRepository : IUserRepository
     {
         public AuthResult Register(User user, UserPassword password)
         {

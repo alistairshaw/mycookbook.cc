@@ -7,7 +7,7 @@ using mycookbook.cc.MyCookBook.Ingredient.Repository.Models;
 
 namespace mycookbook.cc.MyCookBook.Ingredient.Repository
 {
-    class SqlLiteIngredientRepository : IIngredientRepository
+    class IngredientRepository : IIngredientRepository
     {
         public void Delete(Ingredient ingredient)
         {
