@@ -2,16 +2,18 @@ namespace mycookbook.cc.MyCookBook.User.Aggregates
 {
     public class AuthToken
     {
-        public string Token { get; }
+        public string User { get; }
+        public string Password { get; }
 
-        private AuthToken(string token)
+        private AuthToken(string user, string password)
         {
-            Token = token;
+            Password = password;
+            User = user;
         }
 
-        public static AuthToken FromString(string token)
+        public static AuthToken FromToken(string token, int userId)
         {
-            return new AuthToken(token);
+            return new AuthToken(userId.ToString(), token);
         }
     }
 }

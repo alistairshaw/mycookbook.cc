@@ -1,10 +1,11 @@
 using mycookbook.cc.MyCookBook.Base.ValueObjects;
+using mycookbook.cc.MyCookBook.User.Aggregates;
 
 namespace mycookbook.cc.MyCookBook.User.Repository {
     interface IUserRepository
     {
-        Aggregates.AuthToken Register(User user, UserPassword password);
+        AuthToken Register(User user, UserPassword password);
 
-        Aggregates.AuthToken SignIn(EmailAddress email, string plainTextPassword);
+        AuthToken SignIn(EmailAddress email, string plainTextPassword);
     }
 }

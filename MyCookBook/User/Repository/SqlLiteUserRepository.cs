@@ -62,7 +62,7 @@ namespace mycookbook.cc.MyCookBook.User.Repository
                 db.UserTokens.Add(userTokenModel);
                 db.SaveChanges();
 
-                return AuthToken.FromString(userTokenModel.Token);
+                return AuthToken.FromToken(userTokenModel.Token, userId);
             }
         }
 

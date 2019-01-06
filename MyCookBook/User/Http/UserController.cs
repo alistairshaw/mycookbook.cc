@@ -59,12 +59,21 @@ namespace mycookbook.cc.MyCookBook.User.Http
             }
             catch (System.ArgumentException ex)
             {
+                Response.StatusCode = 400;
                 return Json(JsonErrorResponse.FromMessage(ex.Message));
             }
             catch (RecordNotFoundException)
             {
+                Response.StatusCode = 403;
                 return Json(JsonErrorResponse.FromMessage("Incorrect Email or Password"));
             }
+        }
+        
+        [HttpGet]
+        [Route("api/auth/sign-out")]
+        public IActionResult SignOut()
+        {
+            return Json(true);
         }
     }
 }
