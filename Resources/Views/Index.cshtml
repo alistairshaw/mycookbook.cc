@@ -4,13 +4,18 @@
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--<link rel="icon" type="image/png" href="/img/favicon.png">-->
+        <link rel="icon" type="image/png" href="~/favicon.ico">
+        <base href="/">
         <link rel="stylesheet" type="text/css" href="~/css/production.min.css">
 
         <title>Cookbook</title>
     </head>
     <body>
-        <h1>Hello World</h1>
-        <div id="AngularApp"></div>
+        <app-root></app-root>
+        <script type="text/javascript" src="~/runtime.js"></script>
+        <script type="text/javascript" src="~/polyfills.js"></script>
+        <script type="text/javascript" src="~/styles.js"></script>
+        <script type="text/javascript" src="~/vendor.js"></script>
+        <script type="text/javascript" src="~/main.js"></script>
     </body>
 </html>
