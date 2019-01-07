@@ -6,10 +6,18 @@ import { AppComponent } from './app.component';
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { NavComponent } from './nav/nav.component';
+import { IngredientsComponent } from './ingredients/ingredients.component';
+import { RecipesComponent } from './recipes/recipes.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavComponent,
+    IngredientsComponent,
+    RecipesComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
