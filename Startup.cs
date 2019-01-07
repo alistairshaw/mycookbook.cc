@@ -52,6 +52,7 @@ namespace mycookbook.cc.MyCookBook.cc
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }

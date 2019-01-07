@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using mycookbook.cc.MyCookBook.Base;
 using mycookbook.cc.MyCookBook.Base.Exceptions;
 using mycookbook.cc.MyCookBook.Base.ValueObjects;
+using mycookbook.cc.MyCookBook.Http;
 using mycookbook.cc.MyCookBook.Ingredient.Exceptions;
 using mycookbook.cc.MyCookBook.Ingredient.Repository;
 
