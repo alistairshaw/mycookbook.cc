@@ -1,8 +1,14 @@
+@import "../../../assets/sass/variables";
+
 header {
-    background: #7700FF;
+    background: $primary;
 
     .logo {
         font-weight: bold;
+    }
+
+    a {
+        color: $primary-lightest;
     }
 
     nav {
@@ -21,7 +27,7 @@ header {
                     font-size: .8em;
 
                     &:hover {
-                        background: #8E2BFF;
+                        background: $primary-dark;
                     }
                 }
             }

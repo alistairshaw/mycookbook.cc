@@ -1,0 +1,9 @@
+<div class="container">
+  <div class="col">
+    <h1>Welcome</h1>
+    <app-login *ngIf="!(isAuthenticated | async)"></app-login>
+    <div *ngIf="isAuthenticated | async">
+      <h3>You are currently logged in! Well done you.</h3>
+    </div>
+  </div>
+</div>
