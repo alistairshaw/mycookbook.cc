@@ -7,7 +7,7 @@ import { User } from 'src/app/user/user.model';
   providedIn: 'root'
 })
 export class AuthService {
-
+  
   private BASE_URL = 'https://localhost:5001/api/auth';
 
   constructor(private http: HttpClient) { }
@@ -17,8 +17,13 @@ export class AuthService {
     localStorage.setItem('token', token);
   }
 
-  getToken(): string {
-    return localStorage.getItem('token');
+  clearToken(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
   }
 
   getUser(): string {
@@ -36,8 +41,16 @@ export class AuthService {
     });
   }
 
+  logOut(): Observable<any> {
+    const url = `${this.BASE_URL}/sign-out`;
+    return this.http.get(url, {
+      headers: new HttpHeaders()
+        .set("Authorization", "Basic " + btoa(localStorage.getItem('user') + ':' + localStorage.getItem('token')))
+    });
+  }
+
   signUp(email: string, password: string): Observable<User> {
     const url = `${this.BASE_URL}/register`;
-    return this.http.post<User>(url, { email, password });
+    return this.http.post<User>(url, { email, password },);
   }
 }

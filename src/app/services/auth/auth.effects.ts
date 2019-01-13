@@ -38,4 +38,20 @@ export class AuthEffects {
             )
         )
     );
+
+    @Effect()
+    LogOut: Observable<Action> = this.actions.pipe(
+        ofType(UserActions.LOGOUT),
+        mergeMap(action =>
+            this.authService.logOut().pipe(
+                // If successful, dispatch success action with result
+                map(data => {
+                    this.authService.clearToken();
+                    return { type: UserActions.LOGOUT_SUCCESS }
+                }),
+                // If request fails, dispatch failed action
+                catchError(() => of({ type: UserActions.LOGIN_FAILURE }))
+            )
+        )
+    );
 }
