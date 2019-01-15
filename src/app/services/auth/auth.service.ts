@@ -30,6 +30,10 @@ export class AuthService {
     return localStorage.getItem('user');
   }
 
+  getToken(): string {
+    return localStorage.getItem('token');
+  }
+
   logIn(email: string, password: string): Observable<any> {
     const url = `${this.BASE_URL}/sign-in`;
     const body = new HttpParams()
@@ -45,7 +49,7 @@ export class AuthService {
     const url = `${this.BASE_URL}/sign-out`;
     return this.http.get(url, {
       headers: new HttpHeaders()
-        .set("Authorization", "Basic " + btoa(localStorage.getItem('user') + ':' + localStorage.getItem('token')))
+        .set("Authorization", "Basic " + btoa(this.getUser() + ':' + this.getToken()))
     });
   }
 

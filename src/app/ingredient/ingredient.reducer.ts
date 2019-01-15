@@ -13,7 +13,8 @@ const initialState: IIngredientState = {
         id: 1,
         title: 'Test One',
         blurb: ''
-    }
+    },
+    savingIngredient: false
 };
 
 const selectIngredients = (state: AppState) => state.ingredients;
@@ -23,7 +24,9 @@ export function reducer(state: IIngredientState = initialState, action: Ingredie
 
     switch (action.type) {
         case IngredientActions.ADD_INGREDIENT:
-            return { ...state, ingredients: [...state.ingredients, action.payload], selected: action.payload};
+            return { ...state, savingIngredient: true };
+        case IngredientActions.INGREDIENT_ADDED:
+            return { ...state, ingredients: [...state.ingredients, action.payload], selected: action.payload, savingIngredient: false};
         default:
             return state;
     }

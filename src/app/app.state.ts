@@ -8,7 +8,8 @@ export interface IAuthState {
 
 export interface IIngredientState {
     ingredients: Ingredient[],
-    selected: Ingredient
+    selected: Ingredient,
+    savingIngredient: boolean
 }
 
 export interface AppState {

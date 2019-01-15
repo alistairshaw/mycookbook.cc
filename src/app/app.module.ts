@@ -20,6 +20,8 @@ import { AuthEffects } from './services/auth/auth.effects';
 import { LoginComponent } from './components/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthGuardService } from './services/auth/auth-guard.service';
+import IngredientRepository from './ingredient/ingredient.repository';
+import { IngredientEffects } from './ingredient/ingredient.effects';
 
 @NgModule({
   declarations: [
@@ -37,13 +39,13 @@ import { AuthGuardService } from './services/auth/auth-guard.service';
     ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, IngredientEffects]),
     StoreModule.forRoot({
       ingredients: ingredientReducer,
       auth: userReducer
     })
   ],
-  providers: [AuthService, AuthGuardService],
+  providers: [AuthService, AuthGuardService, IngredientRepository],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
