@@ -14,6 +14,14 @@ export default class IngredientRepository {
         private authService: AuthService
     ) { }
 
+    load() {
+        const url = `${this.BASE_URL}`;
+        return this.http.get<any>(url, {
+            headers: new HttpHeaders()
+                .set("Authorization", "Basic " + btoa(this.authService.getUser() + ':' + this.authService.getToken()))
+        });
+    }
+
     create(ingredient: Ingredient) {
         const url = `${this.BASE_URL}/create`;
         const body = new HttpParams()

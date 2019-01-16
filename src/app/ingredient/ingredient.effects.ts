@@ -17,15 +17,26 @@ export class IngredientEffects {
     ) { }
 
     @Effect()
+    Load: Observable<Action> = this.actions.pipe(
+        ofType(IngredientActions.LOAD_INGREDIENTS),
+        mergeMap(action =>
+            this.ingredientRepository.load().pipe(
+                map(data => {
+                    return { type: IngredientActions.INGREDIENTS_LOADED, payload: data.ingredients }
+                }),
+                catchError(() => of({ type: IngredientActions.INGREDIENT_ERROR }))
+            )
+        )
+    )
+
+    @Effect()
     Create: Observable<Action> = this.actions.pipe(
         ofType(IngredientActions.ADD_INGREDIENT),
         mergeMap(action =>
             this.ingredientRepository.create(action.payload).pipe(
-                // If successful, dispatch success action with result
                 map(data => {
                     return { type: IngredientActions.INGREDIENT_ADDED, payload: data }
                 }),
-                // If request fails, dispatch failed action
                 catchError(() => of({ type: IngredientActions.INGREDIENT_ERROR }))
             )
         )

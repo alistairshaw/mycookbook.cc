@@ -4,16 +4,8 @@ import * as IngredientActions from './ingredient.actions'
 import { IIngredientState, AppState } from '../app.state';
 
 const initialState: IIngredientState = {
-    ingredients: [{
-        id: 1,
-        title: 'Test One',
-        blurb: ''
-    }],
-    selected: {
-        id: 1,
-        title: 'Test One',
-        blurb: ''
-    },
+    ingredients: undefined,
+    selected: undefined,
     savingIngredient: false
 };
 
@@ -26,7 +18,9 @@ export function reducer(state: IIngredientState = initialState, action: Ingredie
         case IngredientActions.ADD_INGREDIENT:
             return { ...state, savingIngredient: true };
         case IngredientActions.INGREDIENT_ADDED:
-            return { ...state, ingredients: [...state.ingredients, action.payload], selected: action.payload, savingIngredient: false};
+            return { ...state, ingredients: [...state.ingredients, action.payload], selected: action.payload, savingIngredient: false };
+        case IngredientActions.INGREDIENTS_LOADED:
+            return { ...state, ingredients: action.payload };
         default:
             return state;
     }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { Observable } from 'rxjs'
 import { Store, select } from '@ngrx/store';
 import { Ingredient } from './../../ingredient/ingredient.model';
@@ -34,6 +35,9 @@ export class IngredientsComponent implements OnInit {
   }
 
   ngOnInit() {
+    const ingredients = this.store.select(selectIngredientList).subscribe(ingredients => {
+      if (ingredients === undefined) this.store.dispatch(new IngredientActions.LoadIngredients());
+    });
   }
 
 }

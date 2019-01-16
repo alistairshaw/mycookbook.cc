@@ -1,0 +1,22 @@
+@import "../../../assets/sass/variables";
+
+.ingredients-list {
+    list-style: none;
+    padding: 0;
+    margin :0;
+    li {
+        padding: 30px;
+        line-height: 1.2em;
+        background: $gray-lightest;
+        border-bottom: 1px solid $gray-lighter;
+        .ingredients-list--title {
+            display: block;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+        .ingredients-list--blurb {
+            font-weight: 300;
+            font-size: 0.9em;
+        }
+    }
+}

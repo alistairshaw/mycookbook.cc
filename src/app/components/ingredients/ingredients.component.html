@@ -1,13 +1,13 @@
 <div class="container">
-  <div class="col">
-    <h3>Ingredients</h3>
-    <ul>
+  <div class="col left">
+    <ul class="ingredients-list">
       <li *ngFor="let ingredient of ingredients | async">
-        {{ ingredient.title }}
+        <span class="ingredients-list--title">{{ ingredient.title }}</span>
+        <span class="ingredients-list--blurb">{{ ingredient.blurb }}</span>
       </li>
     </ul>
   </div>
-  <div class="col">
+  <div class="col right">
     <h3>Add Ingredient</h3>
     <form (ngSubmit)="addIngredient()" [formGroup]="newIngredientForm">
       <div class="form-group">
