@@ -10,7 +10,7 @@ import { NavComponent } from './components/nav/nav.component';
 import { IngredientsComponent } from './components/ingredients/ingredients.component';
 import { RecipesComponent } from './components/recipes/recipes.component';
 import { HomeComponent } from './components/home/home.component';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { StoreModule } from '@ngrx/store';
 import { reducer as ingredientReducer } from './ingredient/ingredient.reducer';
 import { reducer as userReducer } from './user/user.reducer';
@@ -43,7 +43,8 @@ import { IngredientEffects } from './ingredient/ingredient.effects';
     StoreModule.forRoot({
       ingredients: ingredientReducer,
       auth: userReducer
-    })
+    }),
+    FontAwesomeModule
   ],
   providers: [AuthService, AuthGuardService, IngredientRepository],
   bootstrap: [AppComponent]

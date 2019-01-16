@@ -23,7 +23,7 @@
             position: absolute;
             top: 15px;
             right: 15px;
-            a, .ingredients-list--deleting {
+            a {
                 background: $gray-light;
                 border-radius: 50%;
                 border: 1px solid $gray; 
@@ -37,16 +37,9 @@
                     border-color: $error-light;
                 }
             }
-            .ingredients-list--deleting {
-                background: $gray-light;
-                color: $error;
-                font-weight: 300;
-                border-radius: 3px;
-                &:hover {
-                    background: $gray-lighter;
-                    color: $error-light;
-                    border-color: $gray;
-                }
+            .ingredients-list--updating {
+                color: $gray-dark;
+                padding-right: 5px;
             }
         }
     }

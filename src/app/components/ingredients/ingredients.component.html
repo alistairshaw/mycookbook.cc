@@ -4,8 +4,14 @@
       <li *ngFor="let ingredient of ingredients | async">
         <span class="ingredients-list--title">{{ ingredient.title }}</span>
         <span class="ingredients-list--blurb">{{ ingredient.blurb }}</span>
-        <span class="ingredients-list--delete" *ngIf="!ingredient.deleting"><a (click)="deleteIngredient(ingredient.id)">x</a></span>
-        <span class="ingredients-list--delete" *ngIf="ingredient.deleting"><span class="ingredients-list--deleting">Deleting</span></span>
+        <span class="ingredients-list--delete" *ngIf="!ingredient.updating">
+          <a (click)="deleteIngredient(ingredient.id)"><fa-icon [icon]="faTimes"></fa-icon></a>
+        </span>
+        <span class="ingredients-list--delete" *ngIf="ingredient.updating">
+          <span class="ingredients-list--updating">
+            <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
+          </span>
+        </span>
       </li>
     </ul>
   </div>

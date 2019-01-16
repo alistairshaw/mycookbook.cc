@@ -22,7 +22,7 @@ export function reducer(state: IIngredientState = initialState, action: Ingredie
         case IngredientActions.INGREDIENTS_LOADED:
             return { ...state, ingredients: action.payload };
         case IngredientActions.REMOVE_INGREDIENT:
-            return { ...state, ingredients: [...state.ingredients].map(i => i.id !== action.payload ? i : {...i, deleting: true}) }
+            return { ...state, ingredients: [...state.ingredients].map(i => i.id !== action.payload ? i : {...i, updating: true}) }
         case IngredientActions.INGREDIENT_REMOVED:
             return { ...state, ingredients: [...state.ingredients].filter(i => i.id !== action.payload)}
         default:

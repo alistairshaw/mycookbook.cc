@@ -7,6 +7,7 @@ import * as IngredientActions from './../../ingredient/ingredient.actions';
 import { AppState, IIngredientState } from './../../app.state';
 import { selectIngredientList } from 'src/app/ingredient/ingredient.reducer';
 import { FormGroup, FormControl } from '@angular/forms';
+import { faSpinner, faTimes } from '@fortawesome/pro-solid-svg-icons';
 
 @Component({
   selector: 'app-ingredients',
@@ -14,6 +15,10 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./ingredients.component.scss']
 })
 export class IngredientsComponent implements OnInit {
+
+  // font awesome icons
+  faSpinner = faSpinner;
+  faTimes = faTimes;
 
   ingredients: Observable<Ingredient[]>;
   newIngredientForm = new FormGroup({
@@ -29,8 +34,7 @@ export class IngredientsComponent implements OnInit {
     this.store.dispatch(new IngredientActions.AddIngredient({
       id: null,
       title: this.newIngredientForm.value.title,
-      blurb: this.newIngredientForm.value.blurb,
-      deleting: false
+      blurb: this.newIngredientForm.value.blurb
     }));
     this.newIngredientForm.reset();
   }

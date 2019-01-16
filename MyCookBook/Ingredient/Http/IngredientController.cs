@@ -2,6 +2,7 @@ using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using mycookbook.cc.MyCookBook.Base;
 using mycookbook.cc.MyCookBook.Base.Exceptions;
@@ -22,6 +23,11 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Http
         public IngredientController(IServiceProvider serviceProvider)
         {
             _ingredientRepository = serviceProvider.GetService<IIngredientRepository>();
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (this.User == null) return;
             userId = Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
 
@@ -90,7 +96,7 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Http
             {
                 var ingredient = _ingredientRepository.Find(this.userId, ingredientId);
                 ingredient = _ingredientRepository.Save(this.userId, ingredient.Update(
-                    Request.Form["title"], 
+                    Request.Form["title"],
                     Request.Form["blurb"]));
 
                 return Json(ingredient.ApiView());
