@@ -17,9 +17,12 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Http
     {
         private IIngredientRepository _ingredientRepository;
 
+        private int userId;
+
         public IngredientController(IServiceProvider serviceProvider)
         {
             _ingredientRepository = serviceProvider.GetService<IIngredientRepository>();
+            userId = Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
 
         [Authorize]
@@ -29,9 +32,8 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Http
         {
             try
             {
-                int userId = Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
                 var ingredient = IngredientFactory.FromApi(Request.Form["title"], Request.Form["blurb"], null);
-                ingredient = _ingredientRepository.Save(userId, ingredient);
+                ingredient = _ingredientRepository.Save(this.userId, ingredient);
                 return Json(ingredient.ApiView());
             }
             catch (DuplicateIngredientException ex)
@@ -50,8 +52,7 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Http
             {
                 string filter = "";
 
-                int userId = Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
-                var ingredients = _ingredientRepository.Search(userId, IngredientSearchQuery.FromFilter(filter));
+                var ingredients = _ingredientRepository.Search(this.userId, IngredientSearchQuery.FromFilter(filter));
                 return Json(ingredients.ApiView());
             }
             catch (DuplicateIngredientException ex)
@@ -68,8 +69,7 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Http
         {
             try
             {
-                int userId = Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
-                var ingredient = _ingredientRepository.Find(userId, ingredientId);
+                var ingredient = _ingredientRepository.Find(this.userId, ingredientId);
                 _ingredientRepository.Delete(ingredient);
 
                 return Json(true);
@@ -88,9 +88,8 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Http
         {
             try
             {
-                int userId = Int32.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
-                var ingredient = _ingredientRepository.Find(userId, ingredientId);
-                ingredient = _ingredientRepository.Save(userId, ingredient.Update(
+                var ingredient = _ingredientRepository.Find(this.userId, ingredientId);
+                ingredient = _ingredientRepository.Save(this.userId, ingredient.Update(
                     Request.Form["title"], 
                     Request.Form["blurb"]));
 

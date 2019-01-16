@@ -29,9 +29,14 @@ export class IngredientsComponent implements OnInit {
     this.store.dispatch(new IngredientActions.AddIngredient({
       id: null,
       title: this.newIngredientForm.value.title,
-      blurb: this.newIngredientForm.value.blurb
+      blurb: this.newIngredientForm.value.blurb,
+      deleting: false
     }));
     this.newIngredientForm.reset();
+  }
+
+  deleteIngredient(ingredientId: number) {
+    this.store.dispatch(new IngredientActions.RemoveIngredient(ingredientId));
   }
 
   ngOnInit() {

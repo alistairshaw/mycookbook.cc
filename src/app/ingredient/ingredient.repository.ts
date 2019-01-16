@@ -17,8 +17,7 @@ export default class IngredientRepository {
     load() {
         const url = `${this.BASE_URL}`;
         return this.http.get<any>(url, {
-            headers: new HttpHeaders()
-                .set("Authorization", "Basic " + btoa(this.authService.getUser() + ':' + this.authService.getToken()))
+            headers: this.authService.getHeadersWithAuth()
         });
     }
 
@@ -28,10 +27,15 @@ export default class IngredientRepository {
             .set('title', ingredient.title)
             .set('blurb', ingredient.blurb);
         return this.http.post<Ingredient>(url, body.toString(), {
-            headers: new HttpHeaders()
+            headers: this.authService.getHeadersWithAuth()
                 .set('Content-Type', 'application/x-www-form-urlencoded')
-                .set("Authorization", "Basic " + btoa(this.authService.getUser() + ':' + this.authService.getToken()))
         });
     }
 
+    delete(ingredientId: number): any {
+        const url = `${this.BASE_URL}/` + ingredientId;
+        return this.http.delete<any>(url, {
+            headers: this.authService.getHeadersWithAuth()
+        });
+    }
 }

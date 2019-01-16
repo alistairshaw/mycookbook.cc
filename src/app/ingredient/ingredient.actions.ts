@@ -36,7 +36,7 @@ export class IngredientAdded implements Action {
 
 export class IngredientRemoved implements Action {
     readonly type = INGREDIENT_REMOVED;
-    constructor(public payload: any) { }
+    constructor(public payload: number) { }
 }
 
 export class IngredientError implements Action {

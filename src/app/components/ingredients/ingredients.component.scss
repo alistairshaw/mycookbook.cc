@@ -9,6 +9,7 @@
         line-height: 1.2em;
         background: $gray-lightest;
         border-bottom: 1px solid $gray-lighter;
+        position: relative;
         .ingredients-list--title {
             display: block;
             font-weight: 400;
@@ -17,6 +18,36 @@
         .ingredients-list--blurb {
             font-weight: 300;
             font-size: 0.9em;
+        }
+        .ingredients-list--delete {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            a, .ingredients-list--deleting {
+                background: $gray-light;
+                border-radius: 50%;
+                border: 1px solid $gray; 
+                display: block;
+                padding: 0px 7px 2px 8px;
+                color: white;
+                transition: all .5s ease;
+                font-size: 0.7em;
+                &:hover {
+                    background: $error;
+                    border-color: $error-light;
+                }
+            }
+            .ingredients-list--deleting {
+                background: $gray-light;
+                color: $error;
+                font-weight: 300;
+                border-radius: 3px;
+                &:hover {
+                    background: $gray-lighter;
+                    color: $error-light;
+                    border-color: $gray;
+                }
+            }
         }
     }
 }

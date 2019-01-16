@@ -4,6 +4,7 @@
     padding: 1.3em;
     display: grid;
     grid-template-columns: 50% auto;
+    align-items: start;
     .col {
         display: inline-grid;
         padding: 30px;

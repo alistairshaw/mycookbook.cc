@@ -26,12 +26,11 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  getUser(): string {
-    return localStorage.getItem('user');
-  }
-
-  getToken(): string {
-    return localStorage.getItem('token');
+  getHeadersWithAuth(): HttpHeaders {
+    const user = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+    return new HttpHeaders()
+      .set("Authorization", "Basic " + btoa(user + ':' + token))
   }
 
   logIn(email: string, password: string): Observable<any> {
@@ -40,16 +39,14 @@ export class AuthService {
       .set('email', email)
       .set('password', password);
     return this.http.post<User>(url, body.toString(), {
-      headers: new HttpHeaders()
-        .set('Content-Type', 'application/x-www-form-urlencoded')
+      headers: this.getHeadersWithAuth()
     });
   }
 
   logOut(): Observable<any> {
     const url = `${this.BASE_URL}/sign-out`;
     return this.http.get(url, {
-      headers: new HttpHeaders()
-        .set("Authorization", "Basic " + btoa(this.getUser() + ':' + this.getToken()))
+      headers: this.getHeadersWithAuth()
     });
   }
 

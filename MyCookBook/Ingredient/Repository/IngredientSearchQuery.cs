@@ -14,7 +14,7 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Repository
 
         public static IngredientSearchQuery FromFilter(string filter)
         {
-            return new IngredientSearchQuery(filter, 0, 50);
+            return new IngredientSearchQuery(filter, 0, 5000);
         }
     }
 }

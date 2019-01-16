@@ -21,6 +21,10 @@ export function reducer(state: IIngredientState = initialState, action: Ingredie
             return { ...state, ingredients: [...state.ingredients, action.payload], selected: action.payload, savingIngredient: false };
         case IngredientActions.INGREDIENTS_LOADED:
             return { ...state, ingredients: action.payload };
+        case IngredientActions.REMOVE_INGREDIENT:
+            return { ...state, ingredients: [...state.ingredients].map(i => i.id !== action.payload ? i : {...i, deleting: true}) }
+        case IngredientActions.INGREDIENT_REMOVED:
+            return { ...state, ingredients: [...state.ingredients].filter(i => i.id !== action.payload)}
         default:
             return state;
     }
