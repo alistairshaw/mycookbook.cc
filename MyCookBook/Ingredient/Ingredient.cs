@@ -17,6 +17,11 @@ namespace mycookbook.cc.MyCookBook.Ingredient
             this.blurb = blurb;
         }
 
+        public int? Id()
+        {
+            return this.id;
+        }
+
         public string Title()
         {
             return this.title;

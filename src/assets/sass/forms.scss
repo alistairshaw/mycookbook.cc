@@ -38,4 +38,15 @@
             color: $primary-lightest;
         }
     }
+    &.disabled {
+        background: $gray-light;
+        color: $gray-dark;
+        border-color: $gray;
+        cursor: default;
+        &:hover {
+            background: $gray-light;
+            color: $gray-dark;
+            border-color: $gray;
+        }
+    }
 }

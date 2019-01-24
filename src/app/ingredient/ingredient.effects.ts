@@ -6,13 +6,13 @@ import { Observable, of } from 'rxjs';
 import * as IngredientActions from "./ingredient.actions";
 import { mergeMap, map, catchError, switchMap } from 'rxjs/operators';
 import IngredientRepository from './ingredient.repository'
-import { AddIngredient, RemoveIngredient, LoadIngredients } from './ingredient.actions';
+import { AddIngredient, RemoveIngredient, LoadIngredients, UpdateIngredient } from './ingredient.actions';
 
 @Injectable()
 export class IngredientEffects {
 
     constructor(
-        private actions: Actions<AddIngredient|LoadIngredients|RemoveIngredient>,
+        private actions: Actions<AddIngredient|LoadIngredients|RemoveIngredient|UpdateIngredient>,
         private ingredientRepository: IngredientRepository
     ) { }
 
@@ -52,4 +52,17 @@ export class IngredientEffects {
             catchError(() => of({ type: IngredientActions.INGREDIENT_ERROR }))
         ))
     )
+
+    @Effect()
+    Update: Observable<Action> = this.actions.pipe(
+        ofType(IngredientActions.UPDATE_INGREDIENT),
+        mergeMap(action =>
+            this.ingredientRepository.update(action.payload).pipe(
+                map(data => {
+                    return { type: IngredientActions.INGREDIENT_UPDATED, payload: data };
+                }),
+                catchError(() => of({ type: IngredientActions.INGREDIENT_ERROR }))
+            )
+        )
+    );
 }

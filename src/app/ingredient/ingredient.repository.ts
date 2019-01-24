@@ -32,6 +32,17 @@ export default class IngredientRepository {
         });
     }
 
+    update(ingredient: Ingredient) {
+        const url = `${this.BASE_URL}/` + ingredient.id;
+        const body = new HttpParams()
+            .set('title', ingredient.title)
+            .set('blurb', ingredient.blurb);
+        return this.http.patch<Ingredient>(url, body.toString(), {
+            headers: this.authService.getHeadersWithAuth()
+                .set('Content-Type', 'application/x-www-form-urlencoded')
+        });
+    }
+
     delete(ingredientId: number): any {
         const url = `${this.BASE_URL}/` + ingredientId;
         return this.http.delete<any>(url, {

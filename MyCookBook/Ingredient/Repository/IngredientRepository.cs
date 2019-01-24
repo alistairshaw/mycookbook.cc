@@ -79,7 +79,7 @@ namespace mycookbook.cc.MyCookBook.Ingredient.Repository
         {
             using (MyCookBookDb db = new MyCookBookDb())
             {
-                IngredientModel existingIngredient = db.Ingredients.FirstOrDefault(i => i.Title == ingredient.Title() && i.UserId == loggedInUserId);
+                IngredientModel existingIngredient = db.Ingredients.FirstOrDefault(i => i.Title == ingredient.Title() && i.UserId == loggedInUserId && i.Id != ingredient.Id());
                 if (existingIngredient == null) return false;
 
                 return true;
